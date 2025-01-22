@@ -3,12 +3,12 @@
 # and modified to exclude duplicated code.
 
 import copy
-from typing import OrderedDict
+from typing import OrderedDict, Any
 
 import dm_env
-import gym
+import gymnasium as gym
 import numpy as np
-from gym import spaces
+from gymnasium import spaces
 
 
 def dmc_spec2gym_space(spec):
@@ -96,8 +96,11 @@ class DMCGYM(gym.core.Env):
 
         return dmc_obs2gym_obs(obs), reward, done, info
 
-    def reset(self):
-        time_step = self._env.reset()
+    def reset(self,
+              *,
+              seed: int | None = None,
+              options: dict[str, Any] | None = None):
+        time_step = self._env.reset(seed=seed)
         obs = time_step.observation
         return dmc_obs2gym_obs(obs)
 

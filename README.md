@@ -10,7 +10,7 @@ pip install git+https://github.com/ikostrikov/dmcgym.git
 
 ## Usage
 ```python
-import gym
+import gymnasium as gym
 import dmcgym
 
 env = gym.make('cheetah-run-v0')

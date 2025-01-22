@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 from dm_control import suite, manipulation
 from gym.envs.registration import register
 
