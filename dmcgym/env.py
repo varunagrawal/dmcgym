@@ -3,7 +3,7 @@
 # and modified to exclude duplicated code.
 
 import copy
-from typing import OrderedDict, Any
+from typing import OrderedDict, Optional
 
 import dm_env
 import gymnasium as gym
@@ -87,22 +87,23 @@ class DMCGYM(gym.core.Env):
 
         time_step = self._env.step(action)
         reward = time_step.reward or 0
-        done = time_step.last()
+        terminated = time_step.last()
         obs = time_step.observation
+        truncated = True
 
         info = {}
-        if done and time_step.discount == 1.0:
+        if terminated and time_step.discount == 1.0:
             info['TimeLimit.truncated'] = True
 
-        return dmc_obs2gym_obs(obs), reward, done, info
+        return dmc_obs2gym_obs(obs), reward, terminated, truncated, info
 
     def reset(self,
-              *,
-              seed: int | None = None,
-              options: dict[str, Any] | None = None):
-        time_step = self._env.reset(seed=seed)
+              seed: Optional[int] = None,
+              options: Optional[dict] = None):
+        self.seed(seed)
+        time_step = self._env.reset()
         obs = time_step.observation
-        return dmc_obs2gym_obs(obs)
+        return dmc_obs2gym_obs(obs), {}
 
     def render(self,
                mode='rgb_array',
