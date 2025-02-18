@@ -1,6 +1,6 @@
 import gymnasium as gym
 from dm_control import suite, manipulation
-from gym.envs.registration import register
+from gymnasium.envs.registration import register
 
 from dmcgym.env import DMCGYM
 
